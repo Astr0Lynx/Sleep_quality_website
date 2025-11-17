@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Quality Research Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sleep Quality Research Dashboard</h1>
+        <p>Monitoring and analyzing sleep quality across three subjects</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="subject1.html">Subject 1</a></li>
+            <li><a href="subject2.html">Subject 2</a></li>
+            <li><a href="subject3.html">Subject 3</a></li>
+            <li><a href="analysis.html">Overall Analysis</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="intro">
+            <h2>Welcome to Sleep Quality Research</h2>
+            <p>This dashboard tracks and analyzes sleep quality data from three test subjects. Each subject undergoes a baseline measurement followed by three nap sessions, with comprehensive data collection and analysis.</p>
+        </section>
+
+        <section class="subjects-overview">
+            <h2>Subjects Overview</h2>
+            <div class="subject-cards">
+                <div class="subject-card">
+                    <h3>Subject 1</h3>
+                    <p>View baseline and 3 nap sessions</p>
+                    <a href="subject1.html" class="btn">View Details</a>
+                </div>
+                <div class="subject-card">
+                    <h3>Subject 2</h3>
+                    <p>View baseline and 3 nap sessions</p>
+                    <a href="subject2.html" class="btn">View Details</a>
+                </div>
+                <div class="subject-card">
+                    <h3>Subject 3</h3>
+                    <p>View baseline and 3 nap sessions</p>
+                    <a href="subject3.html" class="btn">View Details</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="config-section">
+            <h2>ThingSpeak Configuration</h2>
+            <p>Configure your ThingSpeak channel settings to fetch sleep quality data.</p>
+            <form id="configForm">
+                <div class="form-group">
+                    <label for="channelId">Channel ID:</label>
+                    <input type="text" id="channelId" name="channelId" placeholder="Enter ThingSpeak Channel ID">
+                </div>
+                <div class="form-group">
+                    <label for="readApiKey">Read API Key:</label>
+                    <input type="text" id="readApiKey" name="readApiKey" placeholder="Enter Read API Key">
+                </div>
+                <div class="form-group">
+                    <label for="numberOfResults">Results per Query:</label>
+                    <input type="number" id="numberOfResults" name="numberOfResults" value="100" min="1" max="8000">
+                </div>
+                <button type="submit" class="btn">Save Configuration</button>
+            </form>
+            <div id="configStatus"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sleep Quality Research Project</p>
+    </footer>
+
+    <script src="config.js"></script>
+</body>
+</html>
