@@ -29,7 +29,6 @@ async function loadAllData() {
         
         displaySummaryTable();
         displayComparativeAnalysis();
-        displayResponseSummary();
         displayOverallConclusions();
     } catch (error) {
         console.error('Error loading data:', error);
@@ -37,6 +36,9 @@ async function loadAllData() {
         errorMsg.style.display = 'block';
         errorMsg.textContent = `Error: ${error.message}. Please check your ThingSpeak configuration.`;
     }
+    
+    // Always display response summary, even if ThingSpeak data is unavailable
+    displayResponseSummary();
 }
 
 function displaySummaryTable() {
