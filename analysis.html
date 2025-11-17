@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overall Analysis - Sleep Quality Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Overall Sleep Quality Analysis</h1>
+        <p>Comparative analysis across all subjects</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="subject1.html">Subject 1</a></li>
+            <li><a href="subject2.html">Subject 2</a></li>
+            <li><a href="subject3.html">Subject 3</a></li>
+            <li><a href="analysis.html" class="active">Overall Analysis</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Data Summary</h2>
+            <div id="loadingMessage" class="loading">Loading data...</div>
+            <div id="errorMessage" class="error" style="display:none;"></div>
+            
+            <div id="summaryTable" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Baseline</th>
+                            <th>Nap 1</th>
+                            <th>Nap 2</th>
+                            <th>Nap 3</th>
+                            <th>Average</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Subject Comparisons</h2>
+            <div id="comparisonAnalysis">
+                <p>Loading comparative analysis...</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Response Data Summary</h2>
+            <div id="responseSummary">
+                <!-- Subject 1 -->
+                <div class="subject-response-section">
+                    <h3>Subject 1 Responses</h3>
+                    <div id="subject1Responses">
+                        <p>No response data available yet.</p>
+                    </div>
+                </div>
+
+                <!-- Subject 2 -->
+                <div class="subject-response-section">
+                    <h3>Subject 2 Responses</h3>
+                    <div id="subject2Responses">
+                        <p>No response data available yet.</p>
+                    </div>
+                </div>
+
+                <!-- Subject 3 -->
+                <div class="subject-response-section">
+                    <h3>Subject 3 Responses</h3>
+                    <div id="subject3Responses">
+                        <p>No response data available yet.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Overall Conclusions</h2>
+            <div id="overallConclusions" class="analysis-section">
+                <div class="conclusion">
+                    <p>Loading overall conclusions...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sleep Quality Research Project</p>
+    </footer>
+
+    <script src="thingspeak.js"></script>
+    <script src="analysis.js"></script>
+</body>
+</html>

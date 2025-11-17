@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject 2 - Sleep Quality Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Subject 2 - Sleep Quality Data</h1>
+        <p>Baseline and Nap Session Analysis</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="subject1.html">Subject 1</a></li>
+            <li><a href="subject2.html" class="active">Subject 2</a></li>
+            <li><a href="subject3.html">Subject 3</a></li>
+            <li><a href="analysis.html">Overall Analysis</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Subject 2 Overview</h2>
+            <div id="loadingMessage" class="loading">Loading data from ThingSpeak...</div>
+            <div id="errorMessage" class="error" style="display:none;"></div>
+        </section>
+
+        <!-- Nap Session 1 -->
+        <section class="nap-session" id="nap1Section">
+            <h3>Nap Session 1</h3>
+            <div class="data-display" id="nap1Data">
+                <div class="data-item">
+                    <strong>Sleep Score:</strong>
+                    <span id="nap1Score">--</span>
+                </div>
+                <div class="data-item">
+                    <strong>Last Updated:</strong>
+                    <span id="nap1Time">--</span>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h4>Response Form - Nap 1</h4>
+                <form id="nap1Form" class="response-form">
+                    <div class="form-group">
+                        <label for="nap1Duration">Sleep Duration (hours):</label>
+                        <input type="number" id="nap1Duration" name="sleepDuration" step="0.5" min="0" max="12">
+                    </div>
+                    <div class="form-group">
+                        <label for="nap1Quality">Sleep Quality (1-10):</label>
+                        <input type="number" id="nap1Quality" name="sleepQuality" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="nap1Disturbances">Sleep Disturbances:</label>
+                        <textarea id="nap1Disturbances" name="disturbances" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="nap1Notes">Additional Notes:</label>
+                        <textarea id="nap1Notes" name="notes" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Save Response</button>
+                </form>
+                <div id="nap1FormStatus"></div>
+            </div>
+            
+            <div class="analysis-section" id="nap1Analysis">
+                <h4>Analysis & Conclusions</h4>
+                <div class="conclusion" id="nap1Conclusion">
+                    Complete the response form to generate analysis.
+                </div>
+            </div>
+        </section>
+
+        <!-- Nap Session 2 -->
+        <section class="nap-session" id="nap2Section">
+            <h3>Nap Session 2</h3>
+            <div class="data-display" id="nap2Data">
+                <div class="data-item">
+                    <strong>Sleep Score:</strong>
+                    <span id="nap2Score">--</span>
+                </div>
+                <div class="data-item">
+                    <strong>Last Updated:</strong>
+                    <span id="nap2Time">--</span>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h4>Response Form - Nap 2</h4>
+                <form id="nap2Form" class="response-form">
+                    <div class="form-group">
+                        <label for="nap2Duration">Sleep Duration (hours):</label>
+                        <input type="number" id="nap2Duration" name="sleepDuration" step="0.5" min="0" max="12">
+                    </div>
+                    <div class="form-group">
+                        <label for="nap2Quality">Sleep Quality (1-10):</label>
+                        <input type="number" id="nap2Quality" name="sleepQuality" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="nap2Disturbances">Sleep Disturbances:</label>
+                        <textarea id="nap2Disturbances" name="disturbances" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="nap2Notes">Additional Notes:</label>
+                        <textarea id="nap2Notes" name="notes" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Save Response</button>
+                </form>
+                <div id="nap2FormStatus"></div>
+            </div>
+            
+            <div class="analysis-section" id="nap2Analysis">
+                <h4>Analysis & Conclusions</h4>
+                <div class="conclusion" id="nap2Conclusion">
+                    Complete the response form to generate analysis.
+                </div>
+            </div>
+        </section>
+
+        <!-- Nap Session 3 -->
+        <section class="nap-session" id="nap3Section">
+            <h3>Nap Session 3</h3>
+            <div class="data-display" id="nap3Data">
+                <div class="data-item">
+                    <strong>Sleep Score:</strong>
+                    <span id="nap3Score">--</span>
+                </div>
+                <div class="data-item">
+                    <strong>Last Updated:</strong>
+                    <span id="nap3Time">--</span>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h4>Response Form - Nap 3</h4>
+                <form id="nap3Form" class="response-form">
+                    <div class="form-group">
+                        <label for="nap3Duration">Sleep Duration (hours):</label>
+                        <input type="number" id="nap3Duration" name="sleepDuration" step="0.5" min="0" max="12">
+                    </div>
+                    <div class="form-group">
+                        <label for="nap3Quality">Sleep Quality (1-10):</label>
+                        <input type="number" id="nap3Quality" name="sleepQuality" min="1" max="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="nap3Disturbances">Sleep Disturbances:</label>
+                        <textarea id="nap3Disturbances" name="disturbances" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="nap3Notes">Additional Notes:</label>
+                        <textarea id="nap3Notes" name="notes" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Save Response</button>
+                </form>
+                <div id="nap3FormStatus"></div>
+            </div>
+            
+            <div class="analysis-section" id="nap3Analysis">
+                <h4>Analysis & Conclusions</h4>
+                <div class="conclusion" id="nap3Conclusion">
+                    Complete the response form to generate analysis.
+                </div>
+            </div>
+        </section>
+
+        <!-- Baseline (at the bottom) -->
+        <section class="nap-session baseline-session" id="baselineSection">
+            <h3>Baseline Measurement</h3>
+            <div class="data-display" id="baselineData">
+                <div class="data-item">
+                    <strong>Sleep Score:</strong>
+                    <span id="baselineScore">--</span>
+                </div>
+                <div class="data-item">
+                    <strong>Last Updated:</strong>
+                    <span id="baselineTime">--</span>
+                </div>
+            </div>
+            <p><em>This baseline measurement serves as the reference point for comparing nap session results.</em></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sleep Quality Research Project</p>
+    </footer>
+
+    <script src="thingspeak.js"></script>
+    <script src="subject.js"></script>
+    <script>
+        // Initialize Subject 2
+        initializeSubject(2);
+    </script>
+</body>
+</html>
