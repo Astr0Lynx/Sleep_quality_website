@@ -14,84 +14,41 @@ async function loadSubjectDataDirect() {
     const loadingMsg = document.getElementById('loadingMessage');
     const errorMsg = document.getElementById('errorMessage');
     
-    showLoading('Loading subject data...');
-    hideError();
-    
     try {
         console.log('Loading subject data directly from API...');
         
-        // Skip Python API for non-localhost environments
-        const isLocalhost = window.location.hostname === 'localhost' || 
-                          window.location.hostname === '127.0.0.1';
-        
-        if (isLocalhost) {
-            try {
-                console.log('Trying Python API on localhost...');
-                const response = await fetch(`http://localhost:5000/api/subject/${currentSubjectId}`, {
-                    timeout: 2000
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('✅ Loaded from Python API:', data);
-                    displaySubjectDataDirect(data);
-                    hideLoading();
-                    return;
-                }
-            } catch (apiError) {
-                console.warn('Python API not available:', apiError.message);
+        // Try Python API first
+        try {
+            const response = await fetch(`http://localhost:5000/api/subject/${currentSubjectId}`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('✅ Loaded from Python API:', data);
+                displaySubjectDataDirect(data);
+                hideLoading();
+                hideError();
+                return;
             }
+        } catch (apiError) {
+            console.warn('Python API failed, trying ThingSpeak direct:', apiError);
         }
         
-        // Fallback to ThingSpeak with retry logic
-        console.log('Fetching from ThingSpeak...');
+        // Fallback to ThingSpeak
         const api = new ThingSpeakAPI();
+        const allData = await api.getAllSubjectsData();
+        const subjectData = allData.subjects[currentSubjectId];
         
-        let retryCount = 0;
-        const maxRetries = 3;
-        let lastError = null;
-        
-        while (retryCount < maxRetries) {
-            try {
-                showLoading(`Loading data from ThingSpeak... ${retryCount > 0 ? `(Retry ${retryCount}/${maxRetries})` : ''}`);
-                
-                const allData = await api.getAllSubjectsData();
-                const subjectData = allData.subjects[currentSubjectId];
-                
-                if (subjectData) {
-                    console.log('✅ Loaded from ThingSpeak:', subjectData);
-                    displaySubjectDataDirect(subjectData);
-                    hideLoading();
-                    return;
-                } else {
-                    throw new Error(`No data available for Subject ${currentSubjectId}`);
-                }
-            } catch (fetchError) {
-                lastError = fetchError;
-                retryCount++;
-                console.warn(`Fetch attempt ${retryCount} failed:`, fetchError.message);
-                
-                if (retryCount < maxRetries) {
-                    // Wait before retrying (exponential backoff)
-                    await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
-                }
-            }
+        if (subjectData) {
+            console.log('✅ Loaded from ThingSpeak:', subjectData);
+            displaySubjectDataDirect(subjectData);
+            hideLoading();
+            hideError();
+        } else {
+            throw new Error(`No data available for Subject ${currentSubjectId}`);
         }
-        
-        // All retries failed
-        throw lastError || new Error('Failed to fetch data after multiple attempts');
-        
     } catch (error) {
         console.error('Error loading subject data:', error);
-        showError(`Unable to load data: ${error.message}. Please check your internet connection and try refreshing the page.`);
+        showError(`Error: ${error.message}`);
         hideLoading();
-        
-        // Show troubleshooting link
-        const errorDiv = document.getElementById('errorMessage');
-        if (errorDiv) {
-            const troubleshootLink = document.createElement('p');
-            troubleshootLink.innerHTML = '<a href="debug.html" style="color: #007bff; text-decoration: underline;">🔧 Click here to run diagnostics</a>';
-            errorDiv.appendChild(troubleshootLink);
-        }
     }
 }
 
@@ -814,25 +771,12 @@ function hideLoading() {
     }
 }
 
-function showLoading(message = 'Loading...') {
-    const loadingMsg = document.getElementById('loadingMessage');
-    if (loadingMsg) {
-        loadingMsg.style.display = 'block';
-        loadingMsg.textContent = message;
-    }
-}
-
 function showError(message) {
     hideLoading();
     const errorMsg = document.getElementById('errorMessage');
     if (errorMsg) {
         errorMsg.style.display = 'block';
-        errorMsg.innerHTML = ''; // Clear previous content
-        
-        const errorText = document.createElement('p');
-        errorText.textContent = message;
-        errorText.style.marginBottom = '1rem';
-        errorMsg.appendChild(errorText);
+        errorMsg.textContent = message;
     }
 }
 
