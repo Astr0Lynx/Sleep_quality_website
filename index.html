@@ -237,19 +237,36 @@
                 }
             } catch (error) {
                 console.error('Error loading ThingSpeak data:', error);
-                // Silently hide the error - just show dashes
-                statusElement.style.display = 'none';
-                displayElement.style.display = 'block';
-                connectionStatus.textContent = 'Offline';
-                connectionStatus.className = 'status-warning';
                 
-                // Show placeholder dashes for all fields
-                document.getElementById('latestTimestamp').textContent = '--';
-                document.getElementById('latestBPM').textContent = '--';
-                document.getElementById('latestSpO2').textContent = '--';
-                document.getElementById('latestTemp').textContent = '--';
-                document.getElementById('totalDataPoints').textContent = '--';
-                document.getElementById('latestUser').textContent = '--';
+                const isLocalhost = window.location.hostname === 'localhost' || 
+                                  window.location.hostname === '127.0.0.1';
+                
+                if (isLocalhost) {
+                    // On localhost, show the actual error so you can debug
+                    statusElement.innerHTML = `
+                        <div class="error">
+                            <strong>Connection Error:</strong> ${error.message}<br>
+                            <small>Please check your internet connection and ThingSpeak API settings.</small>
+                        </div>
+                    `;
+                    statusElement.className = 'error';
+                    connectionStatus.textContent = 'Error';
+                    connectionStatus.className = 'status-error';
+                } else {
+                    // For deployed site, silently hide the error - just show dashes
+                    statusElement.style.display = 'none';
+                    displayElement.style.display = 'block';
+                    connectionStatus.textContent = 'Offline';
+                    connectionStatus.className = 'status-warning';
+                    
+                    // Show placeholder dashes for all fields
+                    document.getElementById('latestTimestamp').textContent = '--';
+                    document.getElementById('latestBPM').textContent = '--';
+                    document.getElementById('latestSpO2').textContent = '--';
+                    document.getElementById('latestTemp').textContent = '--';
+                    document.getElementById('totalDataPoints').textContent = '--';
+                    document.getElementById('latestUser').textContent = '--';
+                }
             }
         }
         

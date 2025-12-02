@@ -53,17 +53,27 @@ async function loadSubjectDataDirect() {
         }
     } catch (error) {
         console.error('Error loading subject data:', error);
-        // Silently hide the error and show empty data (dashes)
-        hideLoading();
-        hideError();
         
-        // Display empty data structure so page shows dashes instead of being blank
-        displaySubjectDataDirect({
-            baseline: {},
-            nap1: {},
-            nap2: {},
-            nap3: {}
-        });
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                          window.location.hostname === '127.0.0.1';
+        
+        if (isLocalhost) {
+            // On localhost, show the actual error so you can debug
+            showError(`Error: ${error.message}`);
+            hideLoading();
+        } else {
+            // For deployed site, silently hide the error and show empty data (dashes)
+            hideLoading();
+            hideError();
+            
+            // Display empty data structure so page shows dashes instead of being blank
+            displaySubjectDataDirect({
+                baseline: {},
+                nap1: {},
+                nap2: {},
+                nap3: {}
+            });
+        }
     }
 }
 
