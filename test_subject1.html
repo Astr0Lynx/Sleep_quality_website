@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Subject 1 Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .loading { color: orange; }
+        pre {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Subject 1 Data Debug</h1>
+    
+    <div class="box">
+        <h2>Step 1: Test Python API</h2>
+        <div id="apiTest"></div>
+    </div>
+    
+    <div class="box">
+        <h2>Step 2: Test ThingSpeak Direct</h2>
+        <div id="thingspeakTest"></div>
+    </div>
+    
+    <div class="box">
+        <h2>Step 3: Test Subject Data Loading</h2>
+        <div id="subjectTest"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="thingspeak.js"></script>
+    
+    <script>
+        async function testAPI() {
+            const apiTest = document.getElementById('apiTest');
+            apiTest.innerHTML = '<p class="loading">Testing API...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/subject/1');
+                const data = await response.json();
+                
+                apiTest.innerHTML = `
+                    <p class="success">✅ API Connected!</p>
+                    <p><strong>Baseline:</strong> ${data.baseline ? 'Yes' : 'No'}</p>
+                    <p><strong>Nap 1:</strong> ${data.nap1 ? 'Yes' : 'No'}</p>
+                    <p><strong>Nap 2:</strong> ${data.nap2 ? 'Yes' : 'No'}</p>
+                    <p><strong>Nap 3:</strong> ${data.nap3 ? 'Yes' : 'No'}</p>
+                    <p><strong>Raw Data Points:</strong> ${data.rawData ? data.rawData.length : 0}</p>
+                    <details>
+                        <summary>View Full Data</summary>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </details>
+                `;
+            } catch (error) {
+                apiTest.innerHTML = `<p class="error">❌ API Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testThingSpeak() {
+            const tsTest = document.getElementById('thingspeakTest');
+            tsTest.innerHTML = '<p class="loading">Testing ThingSpeak...</p>';
+            
+            try {
+                const url = `https://api.thingspeak.com/channels/3188672/feeds.json?api_key=W1N28S1IJEC81SI6&results=10`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                tsTest.innerHTML = `
+                    <p class="success">✅ ThingSpeak Connected!</p>
+                    <p><strong>Channel:</strong> ${data.channel.name}</p>
+                    <p><strong>Total Entries:</strong> ${data.channel.last_entry_id}</p>
+                    <p><strong>Recent Entries:</strong> ${data.feeds.length}</p>
+                    <details>
+                        <summary>View Sample Entry</summary>
+                        <pre>${JSON.stringify(data.feeds[0], null, 2)}</pre>
+                    </details>
+                `;
+            } catch (error) {
+                tsTest.innerHTML = `<p class="error">❌ ThingSpeak Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testSubjectLoading() {
+            const subjectTest = document.getElementById('subjectTest');
+            subjectTest.innerHTML = '<p class="loading">Testing Subject Data Loading...</p>';
+            
+            try {
+                const api = new ThingSpeakAPI();
+                const allData = await api.getAllSubjectsData();
+                
+                const subject1 = allData.subjects[1];
+                
+                subjectTest.innerHTML = `
+                    <p class="success">✅ Subject Data Loaded!</p>
+                    <p><strong>Total Subjects:</strong> ${Object.keys(allData.subjects).length}</p>
+                    <h3>Subject 1:</h3>
+                    <p><strong>Baseline:</strong> ${subject1.baseline ? 'Available' : 'Missing'}</p>
+                    ${subject1.baseline ? `
+                        <ul>
+                            <li>Mean BPM: ${subject1.baseline.mean_bpm?.toFixed(1) || 'N/A'}</li>
+                            <li>Mean SpO2: ${subject1.baseline.mean_spo2?.toFixed(1) || 'N/A'}</li>
+                            <li>HRV (RMSSD): ${subject1.baseline.hrv_rmssd?.toFixed(1) || 'N/A'}</li>
+                        </ul>
+                    ` : ''}
+                    <p><strong>Nap 1:</strong> ${subject1.nap1 ? 'Available' : 'Missing'}</p>
+                    ${subject1.nap1 ? `
+                        <ul>
+                            <li>Mean BPM: ${subject1.nap1.mean_bpm?.toFixed(1) || 'N/A'}</li>
+                            <li>Mean SpO2: ${subject1.nap1.mean_spo2?.toFixed(1) || 'N/A'}</li>
+                            <li>HRV (RMSSD): ${subject1.nap1.hrv_rmssd?.toFixed(1) || 'N/A'}</li>
+                        </ul>
+                    ` : ''}
+                    <details>
+                        <summary>View Full Subject Data</summary>
+                        <pre>${JSON.stringify(subject1, null, 2)}</pre>
+                    </details>
+                `;
+            } catch (error) {
+                subjectTest.innerHTML = `<p class="error">❌ Loading Error: ${error.message}</p>
+                <pre>${error.stack}</pre>`;
+            }
+        }
+
+        // Run all tests
+        window.addEventListener('load', async () => {
+            await testAPI();
+            await testThingSpeak();
+            await testSubjectLoading();
+        });
+    </script>
+</body>
+</html>

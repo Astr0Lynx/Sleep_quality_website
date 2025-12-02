@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject 2 - Sleep Quality Dashboard</title>
+    <title>Subject 4 - Sleep Quality Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Subject 2 - Sleep Quality Data</h1>
+        <h1>Subject 4 - Sleep Quality Data</h1>
         <p>Baseline and Nap Session Analysis</p>
     </header>
 
@@ -16,9 +16,9 @@
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="subject1.html">Subject 1</a></li>
-            <li><a href="subject2.html" class="active">Subject 2</a></li>
+            <li><a href="subject2.html">Subject 2</a></li>
             <li><a href="subject3.html">Subject 3</a></li>
-            <li><a href="subject4.html">Subject 4</a></li>
+            <li><a href="subject4.html" class="active">Subject 4</a></li>
             <li><a href="analysis.html">Overall Analysis</a></li>
             <li><a href="mid-evaluation.html">Mid Evaluation</a></li>
             <li><a href="final-evaluation.html">Final Evaluation</a></li>
@@ -27,7 +27,7 @@
 
     <main>
         <section>
-            <h2>Subject 2 - Sleep Quality Analysis</h2>
+            <h2>Subject 4 - Sleep Quality Analysis</h2>
             <div id="loadingMessage" class="loading">Loading data from ThingSpeak...</div>
             <div id="errorMessage" class="error" style="display:none;"></div>
         </section>
@@ -42,31 +42,31 @@
             <div class="metric-viz-pair">
                 <h3>Baseline vs Sessions Comparison</h3>
                 <p class="metric-description">Comparison of key metrics across all sleep sessions</p>
-                <img src="visualizations/user2/baseline_vs_sessions.png" alt="Baseline vs Sessions" class="viz-image">
+                <img src="visualizations/user4/baseline_vs_sessions.png" alt="Baseline vs Sessions" class="viz-image">
             </div>
 
             <div class="metric-viz-pair">
                 <h3>Heart Rate Variability (HRV) Trend</h3>
                 <p class="metric-description">HRV changes across sessions - indicator of autonomic nervous system balance</p>
-                <img src="visualizations/user2/hrv_trend.png" alt="HRV Trend" class="viz-image">
+                <img src="visualizations/user4/hrv_trend.png" alt="HRV Trend" class="viz-image">
             </div>
 
             <div class="metric-viz-pair">
                 <h3>Raw Biometric Time Series</h3>
                 <p class="metric-description">ECG, SpO2, EMG, and motion data over time</p>
-                <img src="visualizations/user2/raw_timeseries.png" alt="Raw Timeseries" class="viz-image">
+                <img src="visualizations/user4/raw_timeseries.png" alt="Raw Timeseries" class="viz-image">
             </div>
 
             <div class="metric-viz-pair">
                 <h3>Signal Distribution Analysis</h3>
                 <p class="metric-description">Statistical distribution of biometric signals</p>
-                <img src="visualizations/user2/signal_distributions.png" alt="Signal Distributions" class="viz-image">
+                <img src="visualizations/user4/signal_distributions.png" alt="Signal Distributions" class="viz-image">
             </div>
 
             <div class="metric-viz-pair">
                 <h3>Correlation Heatmap</h3>
                 <p class="metric-description">Relationships between different biometric measurements</p>
-                <img src="visualizations/user2/correlation_heatmap.png" alt="Correlation Heatmap" class="viz-image">
+                <img src="visualizations/user4/correlation_heatmap.png" alt="Correlation Heatmap" class="viz-image">
             </div>
         </section>
 
@@ -81,19 +81,19 @@
                 <div class="metric-viz-pair">
                     <h4>ECG Frequency Analysis</h4>
                     <p class="metric-description">Heart rhythm frequency components during baseline measurement</p>
-                    <img src="visualizations/user2/fft_ecg_user2_session0.png" alt="ECG FFT Baseline" class="viz-image">
+                    <img src="visualizations/user4/fft_ecg_user4_session0.png" alt="ECG FFT Baseline" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>EMG Frequency Analysis</h4>
                     <p class="metric-description">Muscle activity frequency spectrum during baseline</p>
-                    <img src="visualizations/user2/fft_emg_user2_session0.png" alt="EMG FFT Baseline" class="viz-image">
+                    <img src="visualizations/user4/fft_emg_user4_session0.png" alt="EMG FFT Baseline" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>Motion (MPU) Frequency Analysis</h4>
                     <p class="metric-description">Movement pattern frequencies during baseline</p>
-                    <img src="visualizations/user2/fft_mpu_user2_session0.png" alt="MPU FFT Baseline" class="viz-image">
+                    <img src="visualizations/user4/fft_mpu_user4_session0.png" alt="MPU FFT Baseline" class="viz-image">
                 </div>
             </div>
 
@@ -104,19 +104,19 @@
                 <div class="metric-viz-pair">
                     <h4>ECG Frequency Analysis</h4>
                     <p class="metric-description">Heart rhythm frequency components during sleep nap 1</p>
-                    <img src="visualizations/user2/fft_ecg_user2_session1.png" alt="ECG FFT Session 1" class="viz-image">
+                    <img src="visualizations/user4/fft_ecg_user4_session1.png" alt="ECG FFT Session 1" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>EMG Frequency Analysis</h4>
                     <p class="metric-description">Muscle activity frequency spectrum during sleep nap 1</p>
-                    <img src="visualizations/user2/fft_emg_user2_session1.png" alt="EMG FFT Session 1" class="viz-image">
+                    <img src="visualizations/user4/fft_emg_user4_session1.png" alt="EMG FFT Session 1" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>Motion (MPU) Frequency Analysis</h4>
                     <p class="metric-description">Movement pattern frequencies during sleep nap 1</p>
-                    <img src="visualizations/user2/fft_mpu_user2_session1.png" alt="MPU FFT Session 1" class="viz-image">
+                    <img src="visualizations/user4/fft_mpu_user4_session1.png" alt="MPU FFT Session 1" class="viz-image">
                 </div>
             </div>
 
@@ -127,19 +127,19 @@
                 <div class="metric-viz-pair">
                     <h4>ECG Frequency Analysis</h4>
                     <p class="metric-description">Heart rhythm frequency components during sleep nap 2</p>
-                    <img src="visualizations/user2/fft_ecg_user2_session2.png" alt="ECG FFT Session 2" class="viz-image">
+                    <img src="visualizations/user4/fft_ecg_user4_session2.png" alt="ECG FFT Session 2" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>EMG Frequency Analysis</h4>
                     <p class="metric-description">Muscle activity frequency spectrum during sleep nap 2</p>
-                    <img src="visualizations/user2/fft_emg_user2_session2.png" alt="EMG FFT Session 2" class="viz-image">
+                    <img src="visualizations/user4/fft_emg_user4_session2.png" alt="EMG FFT Session 2" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>Motion (MPU) Frequency Analysis</h4>
                     <p class="metric-description">Movement pattern frequencies during sleep nap 2</p>
-                    <img src="visualizations/user2/fft_mpu_user2_session2.png" alt="MPU FFT Session 2" class="viz-image">
+                    <img src="visualizations/user4/fft_mpu_user4_session2.png" alt="MPU FFT Session 2" class="viz-image">
                 </div>
             </div>
 
@@ -150,19 +150,19 @@
                 <div class="metric-viz-pair">
                     <h4>ECG Frequency Analysis</h4>
                     <p class="metric-description">Heart rhythm frequency components during sleep nap 3</p>
-                    <img src="visualizations/user2/fft_ecg_user2_session3.png" alt="ECG FFT Session 3" class="viz-image">
+                    <img src="visualizations/user4/fft_ecg_user4_session3.png" alt="ECG FFT Session 3" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>EMG Frequency Analysis</h4>
                     <p class="metric-description">Muscle activity frequency spectrum during sleep nap 3</p>
-                    <img src="visualizations/user2/fft_emg_user2_session3.png" alt="EMG FFT Session 3" class="viz-image">
+                    <img src="visualizations/user4/fft_emg_user4_session3.png" alt="EMG FFT Session 3" class="viz-image">
                 </div>
 
                 <div class="metric-viz-pair">
                     <h4>Motion (MPU) Frequency Analysis</h4>
                     <p class="metric-description">Movement pattern frequencies during sleep nap 3</p>
-                    <img src="visualizations/user2/fft_mpu_user2_session3.png" alt="MPU FFT Session 3" class="viz-image">
+                    <img src="visualizations/user4/fft_mpu_user4_session3.png" alt="MPU FFT Session 3" class="viz-image">
                 </div>
             </div>
         </section>
@@ -177,8 +177,8 @@
     <script src="real-time-data.js"></script>
     <script src="subject.js"></script>
     <script>
-        // Initialize Subject 2
-        initializeSubject(2);
+        // Initialize Subject 4
+        initializeSubject(4);
     </script>
 </body>
 </html>

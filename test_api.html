@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+</head>
+<body>
+    <h1>ThingSpeak API Test</h1>
+    <button onclick="testAPI()">Test API Connection</button>
+    <div id="results"></div>
+
+    <script src="config.js"></script>
+    <script src="thingspeak.js"></script>
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Testing API connection...';
+            
+            try {
+                const api = new ThingSpeakAPI();
+                console.log('Config:', api.config);
+                
+                const data = await api.fetchData(5); // Get last 5 entries
+                console.log('API Response:', data);
+                
+                resultsDiv.innerHTML = `
+                    <h3>Success!</h3>
+                    <p>Channel: ${data.channel.name || 'Sleep Quality Data'}</p>
+                    <p>Fields: ${Object.keys(data.channel.field1 ? data.channel : {}).length} fields detected</p>
+                    <p>Last ${data.feeds.length} entries retrieved</p>
+                    <h4>Latest Entry:</h4>
+                    <pre>${JSON.stringify(data.feeds[data.feeds.length - 1], null, 2)}</pre>
+                `;
+            } catch (error) {
+                console.error('API Error:', error);
+                resultsDiv.innerHTML = `
+                    <h3>Error!</h3>
+                    <p style="color: red;">${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

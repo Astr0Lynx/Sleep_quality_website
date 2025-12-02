@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ThingSpeak Data Test</title>
+</head>
+<body>
+    <h1>Testing ThingSpeak Data</h1>
+    <div id="output"></div>
+    
+    <script>
+    // Test the ThingSpeak API directly
+    const API_URL = 'https://api.thingspeak.com/channels/3038308/feeds.json';
+    const API_KEY = '6LQ29X7MC22135JW';
+    
+    async function testThingSpeakData() {
+        try {
+            const response = await fetch(`${API_URL}?api_key=${API_KEY}&results=10`);
+            const data = await response.json();
+            
+            document.getElementById('output').innerHTML = `
+                <h2>ThingSpeak Response:</h2>
+                <p><strong>Channel:</strong> ${data.channel.name}</p>
+                <p><strong>Total Entries:</strong> ${data.feeds ? data.feeds.length : 'No data'}</p>
+                <h3>Recent Data:</h3>
+                <pre>${JSON.stringify(data.feeds, null, 2)}</pre>
+            `;
+        } catch (error) {
+            document.getElementById('output').innerHTML = `
+                <h2>Error:</h2>
+                <p style="color: red;">${error.message}</p>
+            `;
+        }
+    }
+    
+    // Run test when page loads
+    testThingSpeakData();
+    </script>
+</body>
+</html>

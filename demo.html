@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Demo - Sleep Quality Research</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Enhanced Website Features</h1>
+        <p>Demonstration of dynamic features and improvements</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="subject1.html">Subject 1</a></li>
+            <li><a href="subject2.html">Subject 2</a></li>
+            <li><a href="subject3.html">Subject 3</a></li>
+            <li><a href="analysis.html">Overall Analysis</a></li>
+            <li><a href="mid-evaluation.html">Mid Evaluation</a></li>
+            <li><a href="final-evaluation.html">Final Evaluation</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Modern Design Features</h2>
+            <div class="project-cards">
+                <div class="project-card">
+                    <h3>Interactive Elements</h3>
+                    <ul>
+                        <li>Hover effects and transitions</li>
+                        <li>Ripple animations</li>
+                        <li>Enhanced user engagement</li>
+                    </ul>
+                    <div class="card-actions">
+                        <button class="btn">Primary</button>
+                        <button class="btn btn-secondary">Secondary</button>
+                        <button class="btn btn-accent">Accent</button>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Data Visualization</h3>
+                    <ul>
+                        <li>Advanced charts and graphs</li>
+                        <li>Progress indicators</li>
+                        <li>Real-time updates</li>
+                    </ul>
+                    <div id="demoChart" style="margin-top: 1rem; height: 200px; background: #f9fafb; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; color: #6b7280;">
+                        Chart Display
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>Performance Metrics</h3>
+                    <ul>
+                        <li>Real-time monitoring</li>
+                        <li>Status indicators</li>
+                        <li>System analytics</li>
+                    </ul>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <div id="systemAccuracy"></div>
+                        <div id="dataReliability"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Biometric Dashboard</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div id="bpmGauge"></div>
+                <div id="spo2Gauge"></div>
+                <div id="tempGauge"></div>
+                <div id="sleepScoreGauge"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Responsive Design</h2>
+            <p>Fully responsive design optimized for desktop, tablet, and mobile devices.</p>
+            
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Desktop Experience</h4>
+                    <ul>
+                        <li>Full-width layouts</li>
+                        <li>Advanced hover effects</li>
+                        <li>Multi-column grids</li>
+                    </ul>
+                </div>
+                
+                <div class="tech-item">
+                    <h4>Mobile Optimization</h4>
+                    <ul>
+                        <li>Single-column layouts</li>
+                        <li>Touch-friendly interface</li>
+                        <li>Optimized navigation</li>
+                    </ul>
+                </div>
+                
+                <div class="tech-item">
+                    <h4>Performance</h4>
+                    <ul>
+                        <li>Optimized animations</li>
+                        <li>Efficient loading</li>
+                        <li>Minimal resource usage</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sleep Quality Research Project - Enhanced Features Demo</p>
+    </footer>
+
+    <script src="animations.js"></script>
+    <script src="data-visualization.js"></script>
+    <script>
+        // Demo-specific enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create demo visualizations
+            setTimeout(() => {
+                const visualizer = new DataVisualizer();
+                
+                // Demo chart
+                const demoData = [
+                    { label: 'Baseline', value: 65 },
+                    { label: 'Nap 1', value: 78 },
+                    { label: 'Nap 2', value: 82 },
+                    { label: 'Nap 3', value: 75 }
+                ];
+                visualizer.createSleepQualityChart('demoChart', demoData);
+
+                // Demo gauges
+                visualizer.createBiometricGauge('bpmGauge', 68, 100, 'Heart Rate', ' BPM');
+                visualizer.createBiometricGauge('spo2Gauge', 98, 100, 'SpO2', '%');
+                visualizer.createBiometricGauge('tempGauge', 98.6, 110, 'Temperature', '°F');
+                visualizer.createBiometricGauge('sleepScoreGauge', 87, 100, 'Sleep Score', '');
+                
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
