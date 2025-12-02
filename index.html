@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sleep Quality Research Dashboard</title>
+    <title>Sleep Quality Monitoring - Nap Detection Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Sleep Quality Research Dashboard</h1>
-        <p>Real-time biometric monitoring and analysis system</p>
+        <h1>Sleep Quality Monitoring Dashboard</h1>
+        <p>Short Nap & Desk-Sleep Detection for Campus Environments</p>
     </header>
 
     <nav>
@@ -29,32 +29,33 @@
         <!-- Project Introduction -->
         <section class="intro">
             <h2>Project Overview</h2>
-            <p>Embedded systems project for sleep quality monitoring using biometric sensors and IoT data collection.</p>
+            <p>Non-intrusive wearable system for monitoring short naps and desk-sleep in classroom/workspace environments using multi-sensor biometric data.</p>
             
             <div class="project-overview">
                 <div class="overview-grid">
                     <div class="overview-item">
-                        <h3>Real-time Monitoring</h3>
+                        <h3>💤 Short Nap Focus</h3>
                         <ul>
-                            <li>Heart rate and SpO2 tracking</li>
-                            <li>Temperature and motion sensors</li>
-                            <li>Continuous data streaming</li>
+                            <li>Desk-sleep detection system</li>
+                            <li>Realistic campus testing</li>
+                            <li>Classroom drowsiness monitoring</li>
                         </ul>
                     </div>
                     <div class="overview-item">
-                        <h3>Data Analysis</h3>
+                        <h3>📊 Multi-Signal Analysis</h3>
                         <ul>
-                            <li>Sleep quality scoring algorithm</li>
-                            <li>Baseline vs nap comparisons</li>
-                            <li>Statistical trend analysis</li>
+                            <li>Muscle activity (EMG sensor)</li>
+                            <li>Heart rate (ECG sensor)</li>
+                            <li>Oxygen levels (SpO2 sensor)</li>
+                            <li>Body movement (IMU sensor)</li>
                         </ul>
                     </div>
                     <div class="overview-item">
-                        <h3>System Integration</h3>
+                        <h3>🔬 Volunteer Testing</h3>
                         <ul>
-                            <li>ThingSpeak cloud platform</li>
-                            <li>Web-based dashboard</li>
-                            <li>Multi-subject monitoring</li>
+                            <li>Real data from test subjects</li>
+                            <li>ThingSpeak IoT integration</li>
+                            <li>Comprehensive sleep stage mapping</li>
                         </ul>
                     </div>
                 </div>
@@ -112,32 +113,31 @@
             <h2>Technical Specifications</h2>
             <div class="tech-grid">
                 <div class="tech-item">
-                    <h4>Hardware Components</h4>
+                    <h4>Sensors</h4>
                     <ul>
-                        <li>BPM sensor</li>
-                        <li>SpO2 monitor</li>
-                        <li>ECG module</li>
-                        <li>Temperature sensor</li>
-                        <li>EMG detector</li>
-                        <li>MPU motion tracker</li>
+                        <li>EMG sensor (Muscle Sensor v3)</li>
+                        <li>ECG sensor (AD8232)</li>
+                        <li>SpO2 sensor (MAX30102)</li>
+                        <li>IMU sensor (MPU6080)</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>System Design</h4>
+                    <ul>
+                        <li>ESP32 microcontroller</li>
+                        <li>3 PCB modules (sensors + power)</li>
+                        <li>Wearable backpack-mounted design</li>
+                        <li>Calibrated against smartwatch</li>
+                        <li>ECG sampling at 250 Hz</li>
                     </ul>
                 </div>
                 <div class="tech-item">
                     <h4>Data Platform</h4>
                     <ul>
-                        <li>ThingSpeak IoT service</li>
-                        <li>8-channel data collection</li>
-                        <li>Real-time transmission</li>
-                        <li>Cloud data storage</li>
-                    </ul>
-                </div>
-                <div class="tech-item">
-                    <h4>Web Interface</h4>
-                    <ul>
-                        <li>Responsive design</li>
-                        <li>Interactive charts</li>
-                        <li>Real-time updates</li>
-                        <li>Multi-device support</li>
+                        <li>ThingSpeak IoT integration</li>
+                        <li>8-channel data streaming</li>
+                        <li>Real-time web dashboard</li>
+                        <li>Multi-subject monitoring</li>
                     </ul>
                 </div>
             </div>
