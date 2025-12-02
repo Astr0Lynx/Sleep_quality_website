@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Sleep Quality Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .debug-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .debug-status {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .debug-status.loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .debug-status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .debug-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .debug-data {
+            background: #fff;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .refresh-btn {
+            padding: 1rem 2rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+        .refresh-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔧 Debug Console</h1>
+        <p>Troubleshooting Data Loading Issues</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="subject1.html">Subject 1</a></li>
+            <li><a href="subject2.html">Subject 2</a></li>
+            <li><a href="subject3.html">Subject 3</a></li>
+            <li><a href="subject4.html">Subject 4</a></li>
+            <li><a href="analysis.html">Overall Analysis</a></li>
+            <li><a href="summaries.html">Summaries</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="debug-section">
+                <h2>System Information</h2>
+                <div id="systemInfo" class="debug-data">Loading...</div>
+            </div>
+
+            <div class="debug-section">
+                <h2>ThingSpeak Connection Test</h2>
+                <button class="refresh-btn" onclick="testConnection()">🔄 Test Connection</button>
+                <div id="connectionStatus" class="debug-status loading">Not tested yet</div>
+                <div id="connectionData" class="debug-data" style="display:none;"></div>
+            </div>
+
+            <div class="debug-section">
+                <h2>Data Fetch Test</h2>
+                <button class="refresh-btn" onclick="testDataFetch()">📥 Fetch Data</button>
+                <div id="fetchStatus" class="debug-status loading">Not tested yet</div>
+                <div id="fetchData" class="debug-data" style="display:none;"></div>
+            </div>
+
+            <div class="debug-section">
+                <h2>Subject Data Test</h2>
+                <button class="refresh-btn" onclick="testSubjectData()">👤 Get Subject Data</button>
+                <div id="subjectStatus" class="debug-status loading">Not tested yet</div>
+                <div id="subjectData" class="debug-data" style="display:none;"></div>
+            </div>
+
+            <div class="debug-section">
+                <h2>Console Logs</h2>
+                <div id="consoleLogs" class="debug-data"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="thingspeak.js"></script>
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const logs = [];
+
+        function addLog(type, ...args) {
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            logs.push(`[${timestamp}] [${type}] ${message}`);
+            updateConsoleLogs();
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog('LOG', ...args);
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog('ERROR', ...args);
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addLog('WARN', ...args);
+        };
+
+        function updateConsoleLogs() {
+            document.getElementById('consoleLogs').textContent = logs.join('\n');
+        }
+
+        // Display system information
+        function displaySystemInfo() {
+            const info = {
+                'User Agent': navigator.userAgent,
+                'Platform': navigator.platform,
+                'Language': navigator.language,
+                'Online': navigator.onLine,
+                'Cookies Enabled': navigator.cookieEnabled,
+                'Current URL': window.location.href,
+                'Timestamp': new Date().toISOString(),
+                'Local Storage Available': typeof(Storage) !== 'undefined',
+                'Config Loaded': typeof THINGSPEAK_CONFIG !== 'undefined'
+            };
+
+            if (typeof THINGSPEAK_CONFIG !== 'undefined') {
+                info['Channel ID'] = THINGSPEAK_CONFIG.channelId;
+                info['API Key Exists'] = !!THINGSPEAK_CONFIG.readApiKey;
+            }
+
+            document.getElementById('systemInfo').textContent = JSON.stringify(info, null, 2);
+        }
+
+        async function testConnection() {
+            const statusEl = document.getElementById('connectionStatus');
+            const dataEl = document.getElementById('connectionData');
+            
+            statusEl.className = 'debug-status loading';
+            statusEl.textContent = '⏳ Testing connection to ThingSpeak...';
+            dataEl.style.display = 'none';
+
+            try {
+                const url = `https://api.thingspeak.com/channels/${THINGSPEAK_CONFIG.channelId}/feeds.json?api_key=${THINGSPEAK_CONFIG.readApiKey}&results=1`;
+                
+                console.log('Testing URL:', url);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                statusEl.className = 'debug-status success';
+                statusEl.textContent = `✅ Connection successful! Channel: ${data.channel?.name || 'Unknown'}`;
+                
+                dataEl.textContent = JSON.stringify(data, null, 2);
+                dataEl.style.display = 'block';
+
+                console.log('Connection test passed:', data);
+            } catch (error) {
+                statusEl.className = 'debug-status error';
+                statusEl.textContent = `❌ Connection failed: ${error.message}`;
+                
+                dataEl.textContent = `Error Details:\n${error.stack || error}`;
+                dataEl.style.display = 'block';
+
+                console.error('Connection test failed:', error);
+            }
+        }
+
+        async function testDataFetch() {
+            const statusEl = document.getElementById('fetchStatus');
+            const dataEl = document.getElementById('fetchData');
+            
+            statusEl.className = 'debug-status loading';
+            statusEl.textContent = '⏳ Fetching all data...';
+            dataEl.style.display = 'none';
+
+            try {
+                const api = new ThingSpeakAPI();
+                const data = await api.fetchAllData();
+                
+                statusEl.className = 'debug-status success';
+                statusEl.textContent = `✅ Data fetched! Total records: ${data.feeds?.length || 0}`;
+                
+                const summary = {
+                    'Total Feeds': data.feeds?.length || 0,
+                    'Channel Name': data.channel?.name || 'N/A',
+                    'First Entry': data.feeds?.[0]?.created_at || 'N/A',
+                    'Last Entry': data.feeds?.[data.feeds.length - 1]?.created_at || 'N/A',
+                    'Sample Data': data.feeds?.[0] || 'No data'
+                };
+
+                dataEl.textContent = JSON.stringify(summary, null, 2);
+                dataEl.style.display = 'block';
+
+                console.log('Data fetch test passed:', summary);
+            } catch (error) {
+                statusEl.className = 'debug-status error';
+                statusEl.textContent = `❌ Data fetch failed: ${error.message}`;
+                
+                dataEl.textContent = `Error Details:\n${error.stack || error}`;
+                dataEl.style.display = 'block';
+
+                console.error('Data fetch test failed:', error);
+            }
+        }
+
+        async function testSubjectData() {
+            const statusEl = document.getElementById('subjectStatus');
+            const dataEl = document.getElementById('subjectData');
+            
+            statusEl.className = 'debug-status loading';
+            statusEl.textContent = '⏳ Getting subject data...';
+            dataEl.style.display = 'none';
+
+            try {
+                const api = new ThingSpeakAPI();
+                const allData = await api.getAllSubjectsData();
+                
+                const subjects = allData.subjects || {};
+                const subjectCount = Object.keys(subjects).length;
+                
+                statusEl.className = 'debug-status success';
+                statusEl.textContent = `✅ Subject data loaded! Found ${subjectCount} subjects`;
+                
+                const summary = {};
+                for (let i = 1; i <= 4; i++) {
+                    if (subjects[i]) {
+                        summary[`Subject ${i}`] = {
+                            'Total Records': subjects[i].rawData?.length || 0,
+                            'Sessions': subjects[i].sessions ? Object.keys(subjects[i].sessions) : [],
+                            'Latest BPM': subjects[i].rawData?.[subjects[i].rawData.length - 1]?.field1 || 'N/A',
+                            'Latest SpO2': subjects[i].rawData?.[subjects[i].rawData.length - 1]?.field2 || 'N/A'
+                        };
+                    } else {
+                        summary[`Subject ${i}`] = 'No data';
+                    }
+                }
+
+                dataEl.textContent = JSON.stringify(summary, null, 2);
+                dataEl.style.display = 'block';
+
+                console.log('Subject data test passed:', summary);
+            } catch (error) {
+                statusEl.className = 'debug-status error';
+                statusEl.textContent = `❌ Subject data failed: ${error.message}`;
+                
+                dataEl.textContent = `Error Details:\n${error.stack || error}`;
+                dataEl.style.display = 'block';
+
+                console.error('Subject data test failed:', error);
+            }
+        }
+
+        // Auto-run on load
+        window.addEventListener('DOMContentLoaded', () => {
+            displaySystemInfo();
+            console.log('Debug page loaded');
+        });
+    </script>
+</body>
+</html>
