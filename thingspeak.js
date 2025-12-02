@@ -123,7 +123,7 @@ class ThingSpeakAPI {
                     };
                     
                     // Map subjects - JSON converts integer keys to strings, so handle both
-                    for (let userId = 1; userId <= 3; userId++) {
+                    for (let userId = 1; userId <= 4; userId++) {
                         // Try both string and integer keys
                         const subjectData = data.subjects[userId] || data.subjects[userId.toString()];
                         
@@ -160,8 +160,8 @@ class ThingSpeakAPI {
             const allData = await this.fetchData();
             const subjects = {};
             
-            // Parse data for subjects 1-3
-            for (let subjectId = 1; subjectId <= 3; subjectId++) {
+            // Parse data for subjects 1-4
+            for (let subjectId = 1; subjectId <= 4; subjectId++) {
                 subjects[subjectId] = this.parseSubjectData(allData, subjectId);
             }
             
@@ -470,7 +470,7 @@ class ThingSpeakAPI {
             const allData = await this.fetchData();
             
             const subjects = {};
-            for (let subjectId = 1; subjectId <= 3; subjectId++) {
+            for (let subjectId = 1; subjectId <= 4; subjectId++) {
                 subjects[subjectId] = this.parseSubjectData(allData, subjectId);
             }
             
