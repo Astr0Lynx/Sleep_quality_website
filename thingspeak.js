@@ -449,20 +449,26 @@ class ThingSpeakAPI {
             score *= (validReadings / 3); // Reduce score based on missing data
         }
         
+        // Return data in Python API format for compatibility with displaySubjectDataDirect()
         return {
-            value: Math.round(score * 100) / 100, // Round to 2 decimal places
-            timestamp: latestFeed.created_at,
-            sessionType: sessionType,
-            validReadings: validReadings,
-            biometrics: {
-                bpm: bpm,
-                spo2: spo2,
-                ecg: ecg,
-                temp: temp,
-                emg: emg,
-                mpu: mpu
-            },
-            entryId: latestFeed.entry_id
+            mean_bpm: bpm,
+            latest_bpm: bpm,
+            mean_spo2: spo2,
+            latest_spo2: spo2,
+            min_spo2: spo2,  // approximation
+            latest_ecg: ecg,
+            latest_emg: emg,
+            emg_rms: emg,
+            latest_mpu: mpu,
+            total_motion: mpu,
+            data_points: sessionFeeds.length,
+            latest_timestamp: latestFeed.created_at,
+            start_timestamp: sessionFeeds[0]?.created_at,
+            end_timestamp: latestFeed.created_at,
+            hrv_rmssd: null,  // not calculated from single readings
+            hrv_sdnn: null,
+            spo2_dip_count: 0,  // would need multiple readings to calculate
+            sleep_quality_score: Math.round(score * 100) / 100
         };
     }
     
