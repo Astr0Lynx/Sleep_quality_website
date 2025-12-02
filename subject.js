@@ -17,19 +17,25 @@ async function loadSubjectDataDirect() {
     try {
         console.log('Loading subject data directly from API...');
         
-        // Try Python API first
-        try {
-            const response = await fetch(`http://localhost:5000/api/subject/${currentSubjectId}`);
-            if (response.ok) {
-                const data = await response.json();
-                console.log('✅ Loaded from Python API:', data);
-                displaySubjectDataDirect(data);
-                hideLoading();
-                hideError();
-                return;
+        // Skip localhost API check for GitHub Pages users
+        const isLocalhost = window.location.hostname === 'localhost' || 
+                          window.location.hostname === '127.0.0.1';
+        
+        // Try Python API only if on localhost
+        if (isLocalhost) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/subject/${currentSubjectId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Loaded from Python API:', data);
+                    displaySubjectDataDirect(data);
+                    hideLoading();
+                    hideError();
+                    return;
+                }
+            } catch (apiError) {
+                console.warn('Python API not available:', apiError);
             }
-        } catch (apiError) {
-            console.warn('Python API failed, trying ThingSpeak direct:', apiError);
         }
         
         // Fallback to ThingSpeak
@@ -47,8 +53,9 @@ async function loadSubjectDataDirect() {
         }
     } catch (error) {
         console.error('Error loading subject data:', error);
-        showError(`Error: ${error.message}`);
+        // Silently hide the error - just show dashes
         hideLoading();
+        hideError();
     }
 }
 
