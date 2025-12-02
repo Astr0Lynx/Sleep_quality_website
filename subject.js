@@ -41,7 +41,12 @@ async function loadSubjectDataDirect() {
         // Fallback to ThingSpeak
         const api = new ThingSpeakAPI();
         const allData = await api.getAllSubjectsData();
+        console.log('All data received:', allData);
+        console.log('Current subject ID:', currentSubjectId, 'Type:', typeof currentSubjectId);
+        console.log('Available subjects:', Object.keys(allData.subjects || {}));
+        
         const subjectData = allData.subjects[currentSubjectId];
+        console.log('Subject data for ID', currentSubjectId, ':', subjectData);
         
         if (subjectData) {
             console.log('✅ Loaded from ThingSpeak:', subjectData);
@@ -49,7 +54,7 @@ async function loadSubjectDataDirect() {
             hideLoading();
             hideError();
         } else {
-            throw new Error(`No data available for Subject ${currentSubjectId}`);
+            throw new Error(`No data available for Subject ${currentSubjectId}. Available: ${Object.keys(allData.subjects || {}).join(', ')}`);
         }
     } catch (error) {
         console.error('Error loading subject data:', error);
