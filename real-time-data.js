@@ -23,8 +23,9 @@ class RealTimeDataManager {
             this.isInitialized = true;
             this.showStatus('Connected - Live Data Active', 'ready');
             
-            // Start real-time updates
-            this.api.startRealTimeUpdates(30); // Update every 30 seconds
+            // Start real-time updates (disabled by default - only enable if expecting live data)
+            // Uncomment the line below to enable automatic updates every 60 seconds
+            // this.api.startRealTimeUpdates(60); // Update every 60 seconds
             
             // Listen for data update events
             document.addEventListener('thingspeakDataUpdate', (event) => {
@@ -52,7 +53,7 @@ class RealTimeDataManager {
             
             // Check for actual changes
             let hasChanges = false;
-            for (let subjectId = 1; subjectId <= 3; subjectId++) {
+            for (let subjectId = 1; subjectId <= 4; subjectId++) {
                 const oldData = this.subjects[subjectId];
                 const newData = allData.subjects[subjectId];
                 
@@ -69,6 +70,8 @@ class RealTimeDataManager {
                 
                 // Show temporary update notification
                 this.showUpdateNotification();
+            } else {
+                console.log('No new data detected');
             }
             
         } catch (error) {
@@ -78,10 +81,29 @@ class RealTimeDataManager {
     }
 
     hasDataChanged(oldData, newData) {
-        if (!oldData || !newData) return true;
+        // If we don't have old data yet, this is initial load - don't show notification
+        if (!oldData) return false;
         
-        // Compare last update timestamps
-        return oldData.lastUpdated !== newData.lastUpdated;
+        // If no new data, no change
+        if (!newData) return false;
+        
+        // Compare raw data array lengths
+        const oldLength = oldData.rawData ? oldData.rawData.length : 0;
+        const newLength = newData.rawData ? newData.rawData.length : 0;
+        
+        if (oldLength !== newLength) {
+            return true; // Data length changed
+        }
+        
+        // Compare latest entry IDs if both have data
+        if (oldLength > 0 && newLength > 0) {
+            const oldLatest = oldData.rawData[oldData.rawData.length - 1];
+            const newLatest = newData.rawData[newData.rawData.length - 1];
+            
+            return oldLatest.entry_id !== newLatest.entry_id;
+        }
+        
+        return false; // No change detected
     }
 
     showUpdateNotification() {
