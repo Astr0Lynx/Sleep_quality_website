@@ -53,9 +53,17 @@ async function loadSubjectDataDirect() {
         }
     } catch (error) {
         console.error('Error loading subject data:', error);
-        // Silently hide the error - just show dashes
+        // Silently hide the error and show empty data (dashes)
         hideLoading();
         hideError();
+        
+        // Display empty data structure so page shows dashes instead of being blank
+        displaySubjectDataDirect({
+            baseline: {},
+            nap1: {},
+            nap2: {},
+            nap3: {}
+        });
     }
 }
 
