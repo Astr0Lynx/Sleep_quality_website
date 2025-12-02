@@ -9,7 +9,7 @@
 <body>
     <header>
         <h1>Sleep Quality Research Dashboard</h1>
-        <p>Monitoring and analyzing sleep quality across three subjects</p>
+        <p>Real-time biometric monitoring and analysis system</p>
     </header>
 
     <nav>
@@ -19,55 +19,188 @@
             <li><a href="subject2.html">Subject 2</a></li>
             <li><a href="subject3.html">Subject 3</a></li>
             <li><a href="analysis.html">Overall Analysis</a></li>
+            <li><a href="mid-evaluation.html">Mid Evaluation</a></li>
+            <li><a href="final-evaluation.html">Final Evaluation</a></li>
         </ul>
     </nav>
 
     <main>
+        <!-- Project Introduction -->
         <section class="intro">
-            <h2>Welcome to Sleep Quality Research</h2>
-            <p>This dashboard tracks and analyzes sleep quality data from three test subjects. Each subject undergoes a baseline measurement followed by three nap sessions, with comprehensive data collection and analysis.</p>
+            <h2>Project Overview</h2>
+            <p>Embedded systems project for sleep quality monitoring using biometric sensors and IoT data collection.</p>
+            
+            <div class="project-overview">
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>Real-time Monitoring</h3>
+                        <ul>
+                            <li>Heart rate and SpO2 tracking</li>
+                            <li>Temperature and motion sensors</li>
+                            <li>Continuous data streaming</li>
+                        </ul>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Data Analysis</h3>
+                        <ul>
+                            <li>Sleep quality scoring algorithm</li>
+                            <li>Baseline vs nap comparisons</li>
+                            <li>Statistical trend analysis</li>
+                        </ul>
+                    </div>
+                    <div class="overview-item">
+                        <h3>System Integration</h3>
+                        <ul>
+                            <li>ThingSpeak cloud platform</li>
+                            <li>Web-based dashboard</li>
+                            <li>Multi-subject monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section class="subjects-overview">
-            <h2>Subjects Overview</h2>
-            <div class="subject-cards">
-                <div class="subject-card">
-                    <h3>Subject 1</h3>
-                    <p>View baseline and 3 nap sessions</p>
-                    <a href="subject1.html" class="btn">View Details</a>
+        <!-- Navigation Dashboard -->
+        <section class="dashboard">
+            <h2>Dashboard Sections</h2>
+            
+            <div class="project-cards">
+                <div class="project-card">
+                    <h3>Subject Data</h3>
+                    <ul>
+                        <li>Individual sleep monitoring</li>
+                        <li>Baseline measurements</li>
+                        <li>Nap session analysis</li>
+                    </ul>
+                    <div class="card-actions">
+                        <a href="subject1.html" class="btn">Subject 1</a>
+                        <a href="subject2.html" class="btn btn-secondary">Subject 2</a>
+                        <a href="subject3.html" class="btn btn-accent">Subject 3</a>
+                    </div>
                 </div>
-                <div class="subject-card">
-                    <h3>Subject 2</h3>
-                    <p>View baseline and 3 nap sessions</p>
-                    <a href="subject2.html" class="btn">View Details</a>
+                
+                <div class="project-card analysis">
+                    <h3>Data Analysis</h3>
+                    <ul>
+                        <li>Cross-subject comparisons</li>
+                        <li>Statistical insights</li>
+                        <li>Trend visualization</li>
+                    </ul>
+                    <div class="card-actions">
+                        <a href="analysis.html" class="btn">View Analysis</a>
+                    </div>
                 </div>
-                <div class="subject-card">
-                    <h3>Subject 3</h3>
-                    <p>View baseline and 3 nap sessions</p>
-                    <a href="subject3.html" class="btn">View Details</a>
+                
+                <div class="project-card presentation">
+                    <h3>Project Evaluations</h3>
+                    <ul>
+                        <li>Mid-term presentation</li>
+                        <li>Final evaluation results</li>
+                        <li>Technical documentation</li>
+                    </ul>
+                    <div class="card-actions">
+                        <a href="mid-evaluation.html" class="btn">Mid Evaluation</a>
+                        <a href="final-evaluation.html" class="btn">Final Evaluation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Overview -->
+        <section class="technical-overview">
+            <h2>Technical Specifications</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Hardware Components</h4>
+                    <ul>
+                        <li>BPM sensor</li>
+                        <li>SpO2 monitor</li>
+                        <li>ECG module</li>
+                        <li>Temperature sensor</li>
+                        <li>EMG detector</li>
+                        <li>MPU motion tracker</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Data Platform</h4>
+                    <ul>
+                        <li>ThingSpeak IoT service</li>
+                        <li>8-channel data collection</li>
+                        <li>Real-time transmission</li>
+                        <li>Cloud data storage</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Web Interface</h4>
+                    <ul>
+                        <li>Responsive design</li>
+                        <li>Interactive charts</li>
+                        <li>Real-time updates</li>
+                        <li>Multi-device support</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <section class="config-section">
             <h2>ThingSpeak Configuration</h2>
-            <p>Configure your ThingSpeak channel settings to fetch sleep quality data.</p>
-            <form id="configForm">
-                <div class="form-group">
-                    <label for="channelId">Channel ID:</label>
-                    <input type="text" id="channelId" name="channelId" placeholder="Enter ThingSpeak Channel ID">
+            <p>System configured for real-time data collection from ThingSpeak platform.</p>
+            <div class="config-info">
+                <div class="info-item">
+                    <strong>Channel ID:</strong>
+                    <span>3188672</span>
                 </div>
-                <div class="form-group">
-                    <label for="readApiKey">Read API Key:</label>
-                    <input type="text" id="readApiKey" name="readApiKey" placeholder="Enter Read API Key">
+                <div class="info-item">
+                    <strong>Data Fields:</strong>
+                    <ul>
+                        <li>Field 1: BPM</li>
+                        <li>Field 2: SpO2</li>
+                        <li>Field 3: ECG</li>
+                        <li>Field 4: Temperature (unused)</li>
+                        <li>Field 5: EMG</li>
+                        <li>Field 6: MPU</li>
+                        <li>Field 7: User ID (1-4)</li>
+                        <li>Field 8: Session ID (0=baseline, 1-3=sleep)</li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="numberOfResults">Results per Query:</label>
-                    <input type="number" id="numberOfResults" name="numberOfResults" value="100" min="1" max="8000">
+                <div class="info-item">
+                    <strong>Status:</strong> <span id="connectionStatus" class="status-ready">Checking...</span>
                 </div>
-                <button type="submit" class="btn">Save Configuration</button>
-            </form>
-            <div id="configStatus"></div>
+            </div>
+        </section>
+
+        <!-- Live Data Feed Section -->
+        <section class="live-data-section">
+            <h2>Live Data Feed</h2>
+            <div id="liveDataStatus" class="loading">Connecting to ThingSpeak...</div>
+            <div id="liveDataDisplay" style="display:none;">
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h4>Latest Reading</h4>
+                        <p id="latestTimestamp">--</p>
+                    </div>
+                    <div class="data-card">
+                        <h4>Heart Rate (BPM)</h4>
+                        <p id="latestBPM" class="data-value">--</p>
+                    </div>
+                    <div class="data-card">
+                        <h4>SpO2 (%)</h4>
+                        <p id="latestSpO2" class="data-value">--</p>
+                    </div>
+                    <div class="data-card">
+                        <h4>Temperature (°C)</h4>
+                        <p id="latestTemp" class="data-value">--</p>
+                    </div>
+                    <div class="data-card">
+                        <h4>Total Data Points</h4>
+                        <p id="totalDataPoints" class="data-value">--</p>
+                    </div>
+                    <div class="data-card">
+                        <h4>Active User</h4>
+                        <p id="latestUser" class="data-value">--</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -76,5 +209,77 @@
     </footer>
 
     <script src="config.js"></script>
+    <script src="thingspeak.js"></script>
+    <script src="real-time-data.js"></script>
+    <script src="animations.js"></script>
+    <script src="data-visualization.js"></script>
+    <script>
+        // Initialize live data feed on index page
+        async function initializeLiveData() {
+            const statusElement = document.getElementById('liveDataStatus');
+            const displayElement = document.getElementById('liveDataDisplay');
+            const connectionStatus = document.getElementById('connectionStatus');
+            
+            try {
+                connectionStatus.textContent = 'Connecting...';
+                connectionStatus.className = 'status-warning';
+                
+                // Create ThingSpeak API instance
+                const api = new ThingSpeakAPI();
+                
+                // Fetch latest data
+                const data = await api.fetchData(10);
+                
+                if (data && data.feeds && data.feeds.length > 0) {
+                    // Get the most recent entry
+                    const latest = data.feeds[data.feeds.length - 1];
+                    
+                    // Update display
+                    document.getElementById('latestTimestamp').textContent = 
+                        new Date(latest.created_at).toLocaleString();
+                    document.getElementById('latestBPM').textContent = latest.field1 || '--';
+                    document.getElementById('latestSpO2').textContent = latest.field2 || '--';
+                    document.getElementById('latestTemp').textContent = latest.field4 || '--';
+                    document.getElementById('totalDataPoints').textContent = data.feeds.length;
+                    document.getElementById('latestUser').textContent = 
+                        latest.field7 ? `Subject ${latest.field7}` : '--';
+                    
+                    // Hide loading, show data
+                    statusElement.style.display = 'none';
+                    displayElement.style.display = 'block';
+                    
+                    // Update connection status
+                    connectionStatus.textContent = 'Connected';
+                    connectionStatus.className = 'status-ready';
+                    
+                    console.log('Successfully loaded ThingSpeak data:', {
+                        channel: data.channel?.name,
+                        entries: data.feeds.length,
+                        latest: latest.created_at
+                    });
+                } else {
+                    throw new Error('No data available from ThingSpeak channel');
+                }
+            } catch (error) {
+                console.error('Error loading ThingSpeak data:', error);
+                statusElement.innerHTML = `
+                    <div class="error">
+                        <strong>Connection Error:</strong> ${error.message}<br>
+                        <small>Please check your internet connection and ThingSpeak API settings.</small>
+                    </div>
+                `;
+                statusElement.className = 'error';
+                connectionStatus.textContent = 'Error';
+                connectionStatus.className = 'status-error';
+            }
+        }
+        
+        // Load data when page is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeLiveData);
+        } else {
+            initializeLiveData();
+        }
+    </script>
 </body>
 </html>
