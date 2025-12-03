@@ -16,10 +16,14 @@ async function loadSubjectDataDirect() {
     
     try {
         console.log('Loading subject data directly from API...');
+        console.log('Current URL:', window.location.href);
+        console.log('Hostname:', window.location.hostname);
         
         // Skip localhost API check for GitHub Pages users
         const isLocalhost = window.location.hostname === 'localhost' || 
                           window.location.hostname === '127.0.0.1';
+        
+        console.log('Is localhost?', isLocalhost);
         
         // Try Python API only if on localhost
         if (isLocalhost) {
@@ -38,8 +42,12 @@ async function loadSubjectDataDirect() {
             }
         }
         
+        console.log('Attempting to load from ThingSpeak...');
+        
         // Fallback to ThingSpeak
         const api = new ThingSpeakAPI();
+        console.log('ThingSpeakAPI instance created');
+        
         const allData = await api.getAllSubjectsData();
         console.log('All data received:', allData);
         console.log('Current subject ID:', currentSubjectId, 'Type:', typeof currentSubjectId);
@@ -48,12 +56,14 @@ async function loadSubjectDataDirect() {
         const subjectData = allData.subjects[currentSubjectId];
         console.log('Subject data for ID', currentSubjectId, ':', subjectData);
         
-        if (subjectData) {
-            console.log('✅ Loaded from ThingSpeak:', subjectData);
+        if (subjectData && (subjectData.baseline || subjectData.nap1 || subjectData.nap2 || subjectData.nap3)) {
+            console.log('✅ Loaded from ThingSpeak - has data:', subjectData);
             displaySubjectDataDirect(subjectData);
             hideLoading();
             hideError();
         } else {
+            console.error('❌ No valid data for subject', currentSubjectId);
+            console.error('Subject data:', subjectData);
             throw new Error(`No data available for Subject ${currentSubjectId}. Available: ${Object.keys(allData.subjects || {}).join(', ')}`);
         }
     } catch (error) {
