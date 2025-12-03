@@ -382,7 +382,27 @@ class ThingSpeakAPI {
     
     calculateSleepScore(sessionFeeds, sessionType) {
         if (!sessionFeeds || sessionFeeds.length === 0) {
-            return null;
+            // Return empty structure instead of null so display functions work
+            return {
+                mean_bpm: null,
+                latest_bpm: null,
+                mean_spo2: null,
+                latest_spo2: null,
+                min_spo2: null,
+                latest_ecg: null,
+                latest_emg: null,
+                emg_rms: null,
+                latest_mpu: null,
+                total_motion: null,
+                data_points: 0,
+                latest_timestamp: null,
+                start_timestamp: null,
+                end_timestamp: null,
+                hrv_rmssd: null,
+                hrv_sdnn: null,
+                spo2_dip_count: 0,
+                sleep_quality_score: null
+            };
         }
         
         // Get the most recent reading from this session
