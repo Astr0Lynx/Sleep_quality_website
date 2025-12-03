@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThingSpeak API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 ThingSpeak API Diagnostic Tool</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Direct ThingSpeak API Call</h2>
+        <button onclick="testDirectAPI()">Test Direct API</button>
+        <div id="directAPIResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Using ThingSpeakAPI Class</h2>
+        <button onclick="testThingSpeakClass()">Test ThingSpeak Class</button>
+        <div id="classResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Get All Subjects Data</h2>
+        <button onclick="testGetAllSubjects()">Test Get All Subjects</button>
+        <div id="allSubjectsResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Subject 4 Data</h2>
+        <button onclick="testSubject4()">Test Subject 4</button>
+        <div id="subject4Result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Console Log</h2>
+        <div id="consoleLog" style="background: #000; color: #0f0; padding: 10px; border-radius: 4px; font-family: monospace; max-height: 400px; overflow-y: auto;">
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="thingspeak.js"></script>
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const consoleDiv = document.getElementById('consoleLog');
+
+        function addToConsole(type, ...args) {
+            const msg = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            consoleDiv.innerHTML += `<div>[${type}] ${msg}</div>`;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole('LOG', ...args);
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole('ERROR', ...args);
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole('WARN', ...args);
+        };
+
+        async function testDirectAPI() {
+            const resultDiv = document.getElementById('directAPIResult');
+            resultDiv.innerHTML = '<p class="info">Testing direct ThingSpeak API...</p>';
+            
+            try {
+                const url = 'https://api.thingspeak.com/channels/3188672/feeds.json?api_key=W1N28S1IJEC81SI6&results=10';
+                console.log('Fetching:', url);
+                
+                const response = await fetch(url);
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Data received:', data);
+                
+                resultDiv.innerHTML = `
+                    <p class="success">✅ SUCCESS!</p>
+                    <p>Channel: ${data.channel?.name || 'Unknown'}</p>
+                    <p>Total feeds: ${data.feeds?.length || 0}</p>
+                    <p>Latest entry: ${data.feeds?.[data.feeds.length - 1]?.created_at || 'N/A'}</p>
+                    <pre>${JSON.stringify(data, null, 2).substring(0, 1000)}...</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p class="error">❌ FAILED: ${error.message}</p>`;
+            }
+        }
+
+        async function testThingSpeakClass() {
+            const resultDiv = document.getElementById('classResult');
+            resultDiv.innerHTML = '<p class="info">Testing ThingSpeakAPI class...</p>';
+            
+            try {
+                const api = new ThingSpeakAPI();
+                console.log('ThingSpeakAPI instance created');
+                
+                const data = await api.fetchData(10);
+                console.log('fetchData() returned:', data);
+                
+                resultDiv.innerHTML = `
+                    <p class="success">✅ SUCCESS!</p>
+                    <p>Channel: ${data.channel?.name || 'Unknown'}</p>
+                    <p>Total feeds: ${data.feeds?.length || 0}</p>
+                    <pre>${JSON.stringify(data, null, 2).substring(0, 1000)}...</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p class="error">❌ FAILED: ${error.message}</p>`;
+            }
+        }
+
+        async function testGetAllSubjects() {
+            const resultDiv = document.getElementById('allSubjectsResult');
+            resultDiv.innerHTML = '<p class="info">Testing getAllSubjectsData()...</p>';
+            
+            try {
+                const api = new ThingSpeakAPI();
+                const allData = await api.getAllSubjectsData();
+                console.log('getAllSubjectsData() returned:', allData);
+                
+                resultDiv.innerHTML = `
+                    <p class="success">✅ SUCCESS!</p>
+                    <p>Total feeds: ${allData.totalFeeds || 0}</p>
+                    <p>Subjects available: ${Object.keys(allData.subjects || {}).join(', ')}</p>
+                    <h4>Subject Data Summary:</h4>
+                    <pre>${JSON.stringify(allData, null, 2).substring(0, 2000)}...</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p class="error">❌ FAILED: ${error.message}</p>`;
+            }
+        }
+
+        async function testSubject4() {
+            const resultDiv = document.getElementById('subject4Result');
+            resultDiv.innerHTML = '<p class="info">Testing Subject 4 data...</p>';
+            
+            try {
+                const api = new ThingSpeakAPI();
+                const allData = await api.getAllSubjectsData();
+                const subject4 = allData.subjects[4];
+                
+                console.log('Subject 4 data:', subject4);
+                
+                if (!subject4) {
+                    throw new Error('Subject 4 not found in data');
+                }
+                
+                resultDiv.innerHTML = `
+                    <p class="success">✅ SUCCESS!</p>
+                    <h4>Baseline:</h4>
+                    <pre>${JSON.stringify(subject4.baseline, null, 2)}</pre>
+                    <h4>Nap 1:</h4>
+                    <pre>${JSON.stringify(subject4.nap1, null, 2)}</pre>
+                    <h4>Nap 2:</h4>
+                    <pre>${JSON.stringify(subject4.nap2, null, 2)}</pre>
+                    <h4>Nap 3:</h4>
+                    <pre>${JSON.stringify(subject4.nap3, null, 2)}</pre>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<p class="error">❌ FAILED: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-run Test 1 on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded. Running diagnostic tests...');
+            testDirectAPI();
+        });
+    </script>
+</body>
+</html>
