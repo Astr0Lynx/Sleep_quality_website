@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sleep Analysis Summaries - Sleep Quality Dashboard</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dark-mode.css">
     <style>
         .summary-nav {
             display: flex;
@@ -15,21 +16,27 @@
         }
         .summary-nav button {
             padding: 0.75rem 1.5rem;
-            background: var(--primary-color, #2c3e50);
-            color: white;
-            border: none;
-            border-radius: 5px;
+            background: rgba(26, 26, 36, 0.8);
+            color: var(--text-secondary);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 25px;
             cursor: pointer;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
         }
         .summary-nav button:hover {
-            background: var(--accent-color, #3498db);
+            background: rgba(0, 245, 255, 0.1);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
             transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
         }
         .summary-nav button.active {
-            background: var(--accent-color, #3498db);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: var(--gradient-neon);
+            border-color: transparent;
+            color: var(--text-primary);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
         }
         .summary-content {
             display: none;
@@ -39,25 +46,31 @@
             display: block;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .summary-section {
-            background: white;
+            background: rgba(18, 18, 26, 0.6);
+            backdrop-filter: blur(20px);
             padding: 2rem;
             margin: 1rem 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 245, 255, 0.1);
         }
         .summary-section h2 {
-            color: var(--primary-color, #2c3e50);
-            border-bottom: 2px solid var(--accent-color, #3498db);
+            background: var(--gradient-neon);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 2px solid rgba(0, 245, 255, 0.3);
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
         }
         .summary-section h3 {
-            color: var(--secondary-color, #34495e);
+            color: var(--neon-cyan);
             margin-top: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
         }
         .stats-grid {
             display: grid;
@@ -66,51 +79,71 @@
             margin: 1rem 0;
         }
         .stat-card {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 5px;
-            border-left: 4px solid var(--accent-color, #3498db);
+            background: rgba(26, 26, 36, 0.8);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 245, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 245, 255, 0.3);
         }
         .stat-card strong {
             display: block;
-            color: var(--primary-color, #2c3e50);
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .stat-value {
-            font-size: 1.25rem;
-            color: var(--accent-color, #3498db);
-            font-weight: bold;
+            font-size: 2rem;
+            color: var(--neon-cyan);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
         }
         .event-list {
             list-style: none;
             padding: 0;
         }
         .event-list li {
-            padding: 0.5rem;
+            padding: 0.75rem 1rem;
             margin: 0.5rem 0;
-            background: #ecf0f1;
-            border-radius: 4px;
+            background: rgba(26, 26, 36, 0.6);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-cyan);
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        .event-list li:hover {
+            background: rgba(0, 245, 255, 0.1);
+            border-left-color: var(--neon-purple);
+            transform: translateX(5px);
         }
         .insight {
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             margin: 1rem 0;
-            border-radius: 5px;
+            border-radius: 8px;
             border-left: 4px solid;
+            backdrop-filter: blur(10px);
         }
         .insight.positive {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
+            background: rgba(0, 245, 255, 0.1);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
         }
         .insight.warning {
-            background: #fff3cd;
+            background: rgba(255, 193, 7, 0.1);
             border-color: #ffc107;
-            color: #856404;
+            color: #ffdb58;
         }
         .insight.info {
-            background: #d1ecf1;
-            border-color: #17a2b8;
-            color: #0c5460;
+            background: rgba(180, 0, 255, 0.1);
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
         }
         .session-comparison {
             display: grid;
@@ -119,17 +152,43 @@
             margin: 1.5rem 0;
         }
         .session-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: rgba(26, 26, 36, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            color: var(--text-primary);
             padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 245, 255, 0.1);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .session-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--neon-purple) 100%);
+            opacity: 0.6;
+        }
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 245, 255, 0.3);
+            border-color: var(--neon-cyan);
+        }
+        .session-card:hover::before {
+            opacity: 1;
+            height: 4px;
         }
         .session-card h4 {
             margin-top: 0;
             font-size: 1.2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.2);
             padding-bottom: 0.5rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
         }
         .session-card ul {
             list-style: none;
@@ -137,7 +196,97 @@
         }
         .session-card li {
             padding: 0.3rem 0;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .session-card li strong {
+            color: var(--text-primary);
+        }
+        
+        /* Visualization Grid Styling */
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .visualization-grid img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 245, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(26, 26, 36, 0.6);
+            padding: 1rem;
+            cursor: zoom-in;
+        }
+        .visualization-grid img:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 245, 255, 0.4);
+        }
+        
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 100px rgba(0, 245, 255, 0.5);
+            animation: zoomIn 0.3s ease;
+            cursor: zoom-out;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 40px;
+            color: var(--neon-cyan);
+            cursor: pointer;
+            background: rgba(26, 26, 36, 0.8);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            transition: all 0.3s;
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
+        }
+        .lightbox-close:hover {
+            background: rgba(0, 245, 255, 0.2);
+            border-color: var(--neon-cyan);
+            transform: rotate(90deg);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.6);
+        }
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -204,7 +353,7 @@
                             <li>Movement Bursts: <strong>46</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(180, 0, 255, 0.15) 0%, rgba(255, 0, 100, 0.15) 100%); border-left: 3px solid #b400ff;">
                         <h4>💤 Sleep Session 1</h4>
                         <ul>
                             <li>Mean BPM: <strong>65.6</strong> (-6.9%)</li>
@@ -214,7 +363,7 @@
                             <li>SpO₂ Dips: <strong>41</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(0, 245, 255, 0.15) 0%, rgba(0, 128, 255, 0.15) 100%); border-left: 3px solid #00f5ff;">
                         <h4>💤 Sleep Session 2</h4>
                         <ul>
                             <li>Mean BPM: <strong>64.6</strong> (-8.3%)</li>
@@ -224,7 +373,7 @@
                             <li>SpO₂ Dips: <strong>47</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(67, 233, 123, 0.15) 0%, rgba(56, 249, 215, 0.15) 100%); border-left: 3px solid #43e97b;">
                         <h4>💤 Sleep Session 3</h4>
                         <ul>
                             <li>Mean BPM: <strong>63.7</strong> (-9.6%)</li>
@@ -297,7 +446,7 @@
                             <li>Movement Bursts: <strong>76</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(180, 0, 255, 0.15) 0%, rgba(255, 0, 100, 0.15) 100%); border-left: 3px solid #b400ff;">
                         <h4>💤 Sleep Session 1</h4>
                         <ul>
                             <li>Mean BPM: <strong>60.2</strong> (-15.7%)</li>
@@ -307,7 +456,7 @@
                             <li>SpO₂ Dips: <strong>43</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(0, 245, 255, 0.15) 0%, rgba(0, 128, 255, 0.15) 100%); border-left: 3px solid #00f5ff;">
                         <h4>💤 Sleep Session 2</h4>
                         <ul>
                             <li>Mean BPM: <strong>60.1</strong> (-15.9%)</li>
@@ -317,7 +466,7 @@
                             <li>SpO₂ Dips: <strong>47</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(67, 233, 123, 0.15) 0%, rgba(56, 249, 215, 0.15) 100%); border-left: 3px solid #43e97b;">
                         <h4>💤 Sleep Session 3</h4>
                         <ul>
                             <li>Mean BPM: <strong>60.2</strong> (-15.7%)</li>
@@ -390,7 +539,7 @@
                             <li>Movement Bursts: <strong>76</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(180, 0, 255, 0.15) 0%, rgba(255, 0, 100, 0.15) 100%); border-left: 3px solid #b400ff;">
                         <h4>💤 Sleep Session 1</h4>
                         <ul>
                             <li>Mean BPM: <strong>62.8</strong> (-16.5%)</li>
@@ -400,7 +549,7 @@
                             <li>SpO₂ Dips: <strong>44</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(0, 245, 255, 0.15) 0%, rgba(0, 128, 255, 0.15) 100%); border-left: 3px solid #00f5ff;">
                         <h4>💤 Sleep Session 2</h4>
                         <ul>
                             <li>Mean BPM: <strong>62.7</strong> (-16.6%)</li>
@@ -410,7 +559,7 @@
                             <li>SpO₂ Dips: <strong>32</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(67, 233, 123, 0.15) 0%, rgba(56, 249, 215, 0.15) 100%); border-left: 3px solid #43e97b;">
                         <h4>💤 Sleep Session 3</h4>
                         <ul>
                             <li>Mean BPM: <strong>63.3</strong> (-15.8%)</li>
@@ -483,7 +632,7 @@
                             <li>Movement Bursts: <strong>130</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(180, 0, 255, 0.15) 0%, rgba(255, 0, 100, 0.15) 100%); border-left: 3px solid #b400ff;">
                         <h4>💤 Sleep Session 1</h4>
                         <ul>
                             <li>Mean BPM: <strong>63.3</strong> (-15.8%)</li>
@@ -493,7 +642,7 @@
                             <li>SpO₂ Dips: <strong>57</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(0, 245, 255, 0.15) 0%, rgba(0, 128, 255, 0.15) 100%); border-left: 3px solid #00f5ff;">
                         <h4>💤 Sleep Session 2</h4>
                         <ul>
                             <li>Mean BPM: <strong>63.2</strong> (-15.9%)</li>
@@ -503,7 +652,7 @@
                             <li>SpO₂ Dips: <strong>32</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(67, 233, 123, 0.15) 0%, rgba(56, 249, 215, 0.15) 100%); border-left: 3px solid #43e97b;">
                         <h4>💤 Sleep Session 3</h4>
                         <ul>
                             <li>Mean BPM: <strong>63.4</strong> (-15.5%)</li>
@@ -576,7 +725,7 @@
                             <li>Avg Sleep SpO₂: <strong>96.9%</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(180, 0, 255, 0.15) 0%, rgba(255, 0, 100, 0.15) 100%); border-left: 3px solid #b400ff;">
                         <h4>🏆 Subject 2</h4>
                         <ul>
                             <li>BPM Change: <strong>-15.7%</strong></li>
@@ -586,7 +735,7 @@
                             <li>Avg Sleep SpO₂: <strong>97.0%</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(0, 245, 255, 0.15) 0%, rgba(0, 128, 255, 0.15) 100%); border-left: 3px solid #00f5ff;">
                         <h4>🏆 Subject 3</h4>
                         <ul>
                             <li>BPM Change: <strong>-16.4%</strong></li>
@@ -596,7 +745,7 @@
                             <li>Avg Sleep SpO₂: <strong>97.0%</strong></li>
                         </ul>
                     </div>
-                    <div class="session-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="session-card" style="background: linear-gradient(135deg, rgba(67, 233, 123, 0.15) 0%, rgba(56, 249, 215, 0.15) 100%); border-left: 3px solid #43e97b;">
                         <h4>🏆 Subject 4</h4>
                         <ul>
                             <li>BPM Change: <strong>-15.7%</strong></li>
@@ -696,6 +845,12 @@
         <p>&copy; 2024 Sleep Quality Monitoring System | Team embed and breakfast</p>
     </footer>
 
+    <!-- Lightbox for full-screen images -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Full screen image">
+    </div>
+
     <script>
         function showSummary(summaryId) {
             // Hide all summaries
@@ -717,6 +872,39 @@
             // Smooth scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Lightbox functionality
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imageSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Add click listeners to all visualization images
+        document.addEventListener('DOMContentLoaded', function() {
+            const vizImages = document.querySelectorAll('.viz-image, .visualization-grid img');
+            vizImages.forEach(img => {
+                img.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openLightbox(this.src);
+                });
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            });
+        });
     </script>
 </body>
 </html>
