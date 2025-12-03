@@ -370,3 +370,22 @@ div[style*="background-color: #fff"] {
     color: var(--neon-cyan) !important;
     text-shadow: var(--glow-cyan);
 }
+
+/* HOME PAGE - Project Cards Fix */
+.project-card, .feature-card, .info-card,
+section .project-card, main .project-card {
+    background: rgba(26, 26, 36, 0.8) !important;
+    border: 1px solid rgba(0, 245, 255, 0.15) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Dashboard Section Cards */
+.dashboard-card, .subject-link-card {
+    background: var(--gradient-neon) !important;
+    border: 1px solid transparent !important;
+}
+
+/* Force all white/light colored divs inside sections to dark */
+section > div:not([class*="grid"]):not([class*="button"]) {
+    background: rgba(26, 26, 36, 0.8) !important;
+}
