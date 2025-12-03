@@ -373,10 +373,39 @@ div[style*="background-color: #fff"] {
 
 /* HOME PAGE - Project Cards Fix */
 .project-card, .feature-card, .info-card,
-section .project-card, main .project-card {
+section .project-card, main .project-card,
+.overview-item, .tech-item {
     background: rgba(26, 26, 36, 0.8) !important;
     border: 1px solid rgba(0, 245, 255, 0.15) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Fix hover - OVERRIDE white background from styles.css */
+.overview-item:hover, .tech-item:hover, .project-card:hover {
+    background: rgba(0, 245, 255, 0.1) !important;
+    border-color: var(--neon-cyan) !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 245, 255, 0.3) !important;
+}
+
+/* Ensure text stays visible */
+.overview-item h3, .tech-item h4, .project-card h3 {
+    color: var(--neon-cyan) !important;
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.3) !important;
+}
+
+.overview-item:hover h3, .tech-item:hover h4, .project-card:hover h3 {
+    color: var(--neon-cyan) !important;
+}
+
+.overview-item ul li, .tech-item ul li, .project-card ul li,
+.overview-item p, .tech-item p, .project-card p {
+    color: var(--text-secondary) !important;
+}
+
+.overview-item:hover ul li, .tech-item:hover ul li, .project-card:hover ul li,
+.overview-item:hover p, .tech-item:hover p, .project-card:hover p {
+    color: var(--text-primary) !important;
 }
 
 /* Dashboard Section Cards */
