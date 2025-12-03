@@ -331,3 +331,42 @@ footer {
 .subject-card:nth-child(4), .stat-card:nth-child(4) {
     animation-delay: 1.5s;
 }
+
+/* Force Dark Mode on ALL Metric Cards */
+.metric-card, .data-card, .biometric-card, 
+.metric-item, .data-item, .biometric-item,
+[class*="metric"], [class*="data-"], [class*="biometric"] {
+    background: rgba(26, 26, 36, 0.8) !important;
+    border: 1px solid rgba(0, 245, 255, 0.15) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Subject Pages - Metric Grid Cards */
+.metrics-grid .metric-card,
+.biometrics-grid .metric-card,
+.session-metrics-card {
+    background: rgba(26, 26, 36, 0.8) !important;
+    border: 1px solid rgba(0, 245, 255, 0.15) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Override any white backgrounds */
+div[style*="background: white"],
+div[style*="background: #fff"],
+div[style*="background-color: white"],
+div[style*="background-color: #fff"] {
+    background: rgba(26, 26, 36, 0.8) !important;
+}
+
+/* Metric Labels */
+.metric-card h4, .metric-card h3, 
+.data-card h4, .data-card h3 {
+    color: var(--text-secondary) !important;
+}
+
+/* Metric Values - Big Numbers */
+.metric-card .value, .data-card .value,
+.metric-card strong, .data-card strong {
+    color: var(--neon-cyan) !important;
+    text-shadow: var(--glow-cyan);
+}
