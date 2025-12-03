@@ -144,40 +144,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Live Data Feed Section -->
-        <section class="live-data-section">
-            <h2>Live Data Feed</h2>
-            <div id="liveDataStatus" class="loading">Connecting to ThingSpeak...</div>
-            <div id="liveDataDisplay" style="display:none;">
-                <div class="data-grid">
-                    <div class="data-card">
-                        <h4>Latest Reading</h4>
-                        <p id="latestTimestamp">--</p>
-                    </div>
-                    <div class="data-card">
-                        <h4>Heart Rate (BPM)</h4>
-                        <p id="latestBPM" class="data-value">--</p>
-                    </div>
-                    <div class="data-card">
-                        <h4>SpO2 (%)</h4>
-                        <p id="latestSpO2" class="data-value">--</p>
-                    </div>
-                    <div class="data-card">
-                        <h4>Temperature (°C)</h4>
-                        <p id="latestTemp" class="data-value">--</p>
-                    </div>
-                    <div class="data-card">
-                        <h4>Total Data Points</h4>
-                        <p id="totalDataPoints" class="data-value">--</p>
-                    </div>
-                    <div class="data-card">
-                        <h4>Active User</h4>
-                        <p id="latestUser" class="data-value">--</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
@@ -186,98 +152,8 @@
 
     <script src="config.js"></script>
     <script src="thingspeak.js"></script>
-    <script src="real-time-data.js"></script>
     <script src="animations.js"></script>
     <script src="data-visualization.js"></script>
     <script src="dynamic-enhancements.js"></script>
-    <script>
-        // Initialize live data feed on index page
-        async function initializeLiveData() {
-            const statusElement = document.getElementById('liveDataStatus');
-            const displayElement = document.getElementById('liveDataDisplay');
-            const connectionStatus = document.getElementById('connectionStatus');
-            
-            try {
-                connectionStatus.textContent = 'Connecting...';
-                connectionStatus.className = 'status-warning';
-                
-                // Create ThingSpeak API instance
-                const api = new ThingSpeakAPI();
-                
-                // Fetch latest data
-                const data = await api.fetchData(10);
-                
-                if (data && data.feeds && data.feeds.length > 0) {
-                    // Get the most recent entry
-                    const latest = data.feeds[data.feeds.length - 1];
-                    
-                    // Update display
-                    document.getElementById('latestTimestamp').textContent = 
-                        new Date(latest.created_at).toLocaleString();
-                    document.getElementById('latestBPM').textContent = latest.field1 || '--';
-                    document.getElementById('latestSpO2').textContent = latest.field2 || '--';
-                    document.getElementById('latestTemp').textContent = latest.field4 || '--';
-                    document.getElementById('totalDataPoints').textContent = data.feeds.length;
-                    document.getElementById('latestUser').textContent = 
-                        latest.field7 ? `Subject ${latest.field7}` : '--';
-                    
-                    // Hide loading, show data
-                    statusElement.style.display = 'none';
-                    displayElement.style.display = 'block';
-                    
-                    // Update connection status
-                    connectionStatus.textContent = 'Connected';
-                    connectionStatus.className = 'status-ready';
-                    
-                    console.log('Successfully loaded ThingSpeak data:', {
-                        channel: data.channel?.name,
-                        entries: data.feeds.length,
-                        latest: latest.created_at
-                    });
-                } else {
-                    throw new Error('No data available from ThingSpeak channel');
-                }
-            } catch (error) {
-                console.error('Error loading ThingSpeak data:', error);
-                
-                const isLocalhost = window.location.hostname === 'localhost' || 
-                                  window.location.hostname === '127.0.0.1';
-                
-                if (isLocalhost) {
-                    // On localhost, show the actual error so you can debug
-                    statusElement.innerHTML = `
-                        <div class="error">
-                            <strong>Connection Error:</strong> ${error.message}<br>
-                            <small>Please check your internet connection and ThingSpeak API settings.</small>
-                        </div>
-                    `;
-                    statusElement.className = 'error';
-                    connectionStatus.textContent = 'Error';
-                    connectionStatus.className = 'status-error';
-                } else {
-                    // For deployed site, silently hide the error - just show dashes
-                    statusElement.style.display = 'none';
-                    displayElement.style.display = 'block';
-                    connectionStatus.textContent = 'Offline';
-                    connectionStatus.className = 'status-warning';
-                    
-                    // Show placeholder dashes for all fields
-                    document.getElementById('latestTimestamp').textContent = '--';
-                    document.getElementById('latestBPM').textContent = '--';
-                    document.getElementById('latestSpO2').textContent = '--';
-                    document.getElementById('latestTemp').textContent = '--';
-                    document.getElementById('totalDataPoints').textContent = '--';
-                    document.getElementById('latestUser').textContent = '--';
-                }
-            }
-        }
-        
-        // Load data when page is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeLiveData);
-        } else {
-            initializeLiveData();
-        }
-    </script>
 </body>
 </html>
