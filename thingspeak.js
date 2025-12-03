@@ -70,12 +70,8 @@ class ThingSpeakAPI {
             console.log('Fetching data from ThingSpeak:', url);
             const response = await fetch(url, {
                 method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    'Pragma': 'no-cache',
-                    'Expires': '0'
-                },
+                // Remove custom headers that trigger CORS preflight
+                // cache: 'no-store' is enough
                 cache: 'no-store'
             });
             if (!response.ok) {
